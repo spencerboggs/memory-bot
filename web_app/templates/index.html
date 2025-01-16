@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Messages</title>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #121212;
+            color: #e0e0e0;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        h1 {
+            color: #00c4cc;
+            font-size: 3rem;
+            margin-bottom: 30px;
+            text-shadow: 0 0 10px rgba(0, 196, 204, 0.5);
+        }
+
+        .memory-list {
+            width: 90vw;
+            max-width: 1400px;
+            background: linear-gradient(145deg, #2c2c2c, #1a1a1a);
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2), 0 1px 3px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            overflow-y: auto;
+            height: 80vh;
+            border: 1px solid #333;
+            overflow: hidden;
+        }
+
+        .memory-item {
+            background-color: #1e1e1e;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            padding: 20px;
+            transition: background-color 0.3s ease;
+            max-height: 400px;
+        }
+
+        .memory-item:hover {
+            background-color: #333;
+        }
+
+        .username-id {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1.1rem;
+            color: #00c4cc;
+        }
+
+        .user-id {
+            font-size: 0.85rem;
+            color: #bbb;
+        }
+
+        .timestamp {
+            font-size: 0.85rem;
+            color: #888;
+            margin-top: 5px;
+        }
+
+        .server-channel {
+            font-size: 0.85rem;
+            color: #777;
+            margin-top: 8px;
+        }
+
+        .message {
+            font-size: 1rem;
+            color: #e0e0e0;
+            margin-top: 15px;
+            white-space: pre-wrap;
+        }
+
+        .loading {
+            text-align: center;
+            font-size: 1.5rem;
+            color: #00c4cc;
+            margin-top: 50px;
+        }
+
+        .refresh-btn {
+            background-color: #00c4cc;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: background-color 0.3s ease;
+        }
+
+        .refresh-btn:hover {
+            background-color: #009f99;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>All Messages</h1>
+        <div class="memory-list" id="memory-list">
+            <div class="loading">Loading data...</div>
+        </div>
+        <button class="refresh-btn" onclick="fetchData()">Refresh Data</button>
+    </div>
+
+    <script>
+        function fetchData() {
+            fetch('/data')
+                .then(response => response.json())
+                .then(data => {
+                    const memoryList = document.getElementById('memory-list');
+                    memoryList.innerHTML = '';
+
+                    if (data.length === 0) {
+                        memoryList.innerHTML = '<p>No messages found.</p>';
+                    }
+
+                    data.forEach(item => {
+                        const memoryItem = document.createElement('div');
+                        memoryItem.classList.add('memory-item');
+                        memoryItem.innerHTML = `
+                            <div class="username-id">
+                                <span class="username">${item.username}</span>
+                                <span class="user-id">ID: ${item.userId}</span>
+                            </div>
+                            <p class="timestamp">${new Date(item.timestamp).toLocaleString()}</p>
+                            <p class="server-channel">Server: ${item.server}, Channel: ${item.channel}</p>
+                            <p class="message">${item.message}</p>
+                        `;
+                        memoryList.appendChild(memoryItem);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                    document.getElementById('memory-list').innerHTML = '<p>Error loading data.</p>';
+                });
+        }
+
+        fetchData();
+        setInterval(fetchData, 5000);
+    </script>
+
+</body>
+
+</html>
