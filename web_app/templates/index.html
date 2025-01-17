@@ -6,6 +6,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>All Messages</title>
     <style>
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: linear-gradient(145deg, #1a1a1a, #2c2c2c);
+            border-radius: 12px;
+            box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(145deg, #00c4cc, #007f99);
+            border-radius: 12px;
+            box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.6);
+            border: 2px solid #121212;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(145deg, #007f99, #004c66);
+        }
+
+        ::-webkit-scrollbar-thumb:active {
+            background: linear-gradient(145deg, #005f66, #002c33);
+        }
+
+        .memory-list {
+            scrollbar-width: thin;
+            scrollbar-color: #007f99 #1a1a1a;
+        }
+
+
         body {
             font-family: 'Roboto', sans-serif;
             background-color: #121212;
@@ -21,7 +52,8 @@
         h1 {
             color: #00c4cc;
             font-size: 3rem;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
+            margin-top: -5px;
             text-shadow: 0 0 10px rgba(0, 196, 204, 0.5);
         }
 
@@ -33,10 +65,10 @@
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2), 0 1px 3px rgba(0, 0, 0, 0.1);
             padding: 20px;
             overflow-y: auto;
-            height: 80vh;
+            height: 75vh;
             border: 1px solid #333;
-            overflow: hidden;
         }
+
 
         .memory-item {
             background-color: #1e1e1e;
@@ -91,7 +123,7 @@
         }
 
         .refresh-btn {
-            background-color: #00c4cc;
+            background-color: #017a7e;
             color: white;
             border: none;
             padding: 10px 20px;
@@ -152,7 +184,7 @@
         }
 
         fetchData();
-        setInterval(fetchData, 5000);
+        setInterval(fetchData, 30000);
     </script>
 
 </body>
